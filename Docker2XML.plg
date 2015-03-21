@@ -26,7 +26,7 @@ Docker2XML - Create unRAID XML docker template from a docker file
 The 'pre-install' script.
 -->
 
-<FILE Name="&plugdir;/README.md">
+<FILE Name="/usr/local/emhttp/plugins/docker2xml/README.md">
 <INLINE>
 ####Docker 2 XML####
 Creates a basic XML file for any given docker container.
