@@ -5,6 +5,7 @@ DOCKERFILE="$1dockerfile/raw"
 echo "Converting $DOCKERFILE"
 echo ""
 echo ""
+echo "*********************************************************************"
 if ! wget $DOCKERFILE -O /tmp/dockerfile
 then
 	echo ""
@@ -17,6 +18,7 @@ then
 	exit 1
 fi
 
+echo "*********************************************************************"
 
 
 DOCKERNAME=$(basename $(echo "$DOCKERFILE" | sed -e "s/\/[^\/]*$//" | sed -e "s/\/[^\/]*$//"))
@@ -24,6 +26,22 @@ REGISTRY=$(echo "$DOCKERFILE" | sed -e "s/\/[^\/]*$//" | sed -e "s/\/[^\/]*$//")
 REPOSITORY="$(echo "$REGISTRY" | grep -oP '(?<=https:\/\/registry.hub.docker.com\/u\/)\w+')"
 
 OUTPUT="/tmp/$DOCKERNAME"
+
+# Remove commented out lines from the docker file
+
+cat "/tmp/dockerfile" | while read LINE
+do
+	FIRSTCHAR="$(echo "$LINE" | sed 's/^[\t ]*//g' | cut -c 1-1 )"
+
+	if [ "$FIRSTCHAR" == "#" ]
+	then
+		continue
+	else
+		echo "$LINE" >> /tmp/dockerfile1
+	fi
+done
+
+mv /tmp/dockerfile1 /tmp/dockerfile
 
 # Get the exposed ports.  Other ports are assumed to be TCP ** Not specified by docker file **
 
@@ -63,6 +81,8 @@ do
 	echo "			<ContainerPort>$PORT</ContainerPort>" >> $OUTPUT
 	echo "			<Protocol>tcp</Protocol>" >> $OUTPUT
 	echo "		</Port>" >> $OUTPUT
+
+	echo "Added TCP Port: $PORT"
 done
 
 for PORT in $UDPPORTS
@@ -72,6 +92,8 @@ do
         echo "                  <ContainerPort>$PORT</ContainerPort>" >> $OUTPUT
         echo "                  <Protocol>udp</Protocol>" >> $OUTPUT
         echo "          </Port>" >> $OUTPUT
+
+	echo "Added UDP Port: $PORT"
 done
 
 for PORT in $OTHERPORTS
@@ -81,10 +103,14 @@ do
         echo "                  <ContainerPort>$PORT</ContainerPort>" >> $OUTPUT
         echo "                  <Protocol>tcp</Protocol>" >> $OUTPUT
         echo "          </Port>" >> $OUTPUT
+
+	echo "Added TCP Port: $PORT"
 done
 echo "		</Publish>" >> $OUTPUT
 echo "	</Networking>" >> $OUTPUT
 echo "	<Data>" >> $OUTPUT
+
+echo ""
 
 for VOLUME in $VOLUMELIST
 do
@@ -93,13 +119,21 @@ do
 	echo "		<ContainerDir>$VOLUME</ContainerDir>" >> $OUTPUT
 	echo "		<Mode>rw</Mode>" >> $OUTPUT
 	echo "	</Volume>" >> $OUTPUT
+
+	echo "Added Container Volume :$VOLUME"
 done
 
 echo "	</Data>" >> $OUTPUT
 
+echo ""
+
 if [ $(echo "$PORTLIST" | wc -l) -eq "1" ]
 then
 	echo "	<WebUI>http://[IP]:[PORT:$PORT]</WebUI>" >> $OUTPUT
+
+	echo "Added WebUI port: $PORT"
+else
+	echo "Could not accurately determine WebUI Port"
 fi
 
 	echo "	<Icon>https://raw.githubusercontent.com/Squidly271/Docker2XML/master/docker.png</Icon>" >> $OUTPUT
@@ -107,14 +141,16 @@ fi
 
 echo "</Container>" >> $OUTPUT
 
-CONVERTED="/boot/config/plugins/dockerMan/templates-user/Docker2XML-$DOCKERNAME.xml"
+CONVERTED="/boot/config/plugins/dockerMan/templates/Docker2XML/Docker2XML-$DOCKERNAME.xml"
 
-if [ ! -d /boot/config/plugins/dockerMan/templates-user/ ]
+if [ ! -d /boot/config/plugins/dockerMan/templates/Docker2XML/ ]
 then
-	mkdir -p /boot/config/plugins/dockerMan/templates-user/
+	mkdir -p /boot/config/plugins/dockerMan/templates/Docker2XML/
 fi
 
-
+echo ""
+echo "*********************************************************************"
+echo ""
 mv "$OUTPUT" "$CONVERTED"
 echo "Converted file now available at $CONVERTED"
 echo ""
