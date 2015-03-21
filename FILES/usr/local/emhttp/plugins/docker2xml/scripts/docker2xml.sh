@@ -14,7 +14,7 @@ then
 	echo ""
 	echo "$DOCKERFILE"
 	echo ""
-	echo "The URL used MUST be from the docker INFORMATION page"
+	echo "Bad URL?"
 	exit 1
 fi
 
@@ -50,6 +50,7 @@ MYPORTS="$(echo "$PORTLIST" | sed 's/EXPOSE//')"
 TCPPORTS="$(echo "$MYPORTS" | egrep -i "/tcp" | sed 's/^.//' | sed 's/.\{4\}$//')"
 UDPPORTS="$(echo "$MYPORTS" | egrep -i "/udp" | sed 's/^.//' | sed 's/.\{4\}$//')"
 OTHERPORTS="$(echo "$MYPORTS" | egrep -v -i "/tcp" | egrep -v -i "/udp" |sed 's/^.//')"
+NUMPORTS=0
 
 # Get the container's Volumes
 
@@ -83,6 +84,8 @@ do
 	echo "		</Port>" >> $OUTPUT
 
 	echo "Added TCP Port: $PORT"
+
+	NUMPORTS=$((NUMPORTS+1))
 done
 
 for PORT in $UDPPORTS
@@ -92,6 +95,8 @@ do
         echo "                  <ContainerPort>$PORT</ContainerPort>" >> $OUTPUT
         echo "                  <Protocol>udp</Protocol>" >> $OUTPUT
         echo "          </Port>" >> $OUTPUT
+
+	NUMPORTS=$((NUMPORTS+1))
 
 	echo "Added UDP Port: $PORT"
 done
@@ -103,6 +108,8 @@ do
         echo "                  <ContainerPort>$PORT</ContainerPort>" >> $OUTPUT
         echo "                  <Protocol>tcp</Protocol>" >> $OUTPUT
         echo "          </Port>" >> $OUTPUT
+
+	NUMPORTS=$((NUMPORTS+1))
 
 	echo "Added TCP Port: $PORT"
 done
@@ -127,7 +134,7 @@ echo "	</Data>" >> $OUTPUT
 
 echo ""
 
-if [ $(echo "$PORTLIST" | wc -l) -eq "1" ]
+if [ $NUMPORTS -eq 1 ]
 then
 	echo "	<WebUI>http://[IP]:[PORT:$PORT]</WebUI>" >> $OUTPUT
 

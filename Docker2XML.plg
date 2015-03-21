@@ -3,7 +3,7 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name      "docker2xml">
 <!ENTITY author    "Squid">
-<!ENTITY version   "2015.03.21">
+<!ENTITY version   "2015.03.21-1">
 <!ENTITY launch    "Settings/Docker2XML">
 <!ENTITY pluginURL "https://raw.githubusercontent.com/Squidly271/Docker2XML/master/Docker2XML.plg">
 <!ENTITY plugdir   "/usr/local/emhttp/plugins/&name;">
@@ -12,6 +12,9 @@
 <PLUGIN name="&name;" author="&author;" version="&version;" launch="&launch;" pluginURL="&pluginURL;">
 
 <CHANGES>
+###2015.03.21-1
+- Fixed an issue where multiple ports exposed on a single line would still cause webUI line to be populated
+
 ###2015.03.21
 - Initial Beta Version
 
