@@ -1,8 +1,9 @@
 Menu="Utilities"
 Title="Docker2XML"
+Icon="docker2xml.png"
 ---
 <?PHP
-/* Copyright 2015 Andrew Zawadzki
+/* Copyright 2015 Squid Software
  */
 ?>
 This plugin creates a basic XML template for any docker container located at  <u><a href="https://registry.hub.docker.com/" target="_blank">https://registry.hub.docker.com/</a></u>
