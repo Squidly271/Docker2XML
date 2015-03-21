@@ -14,7 +14,7 @@ then
 	echo ""
 	echo "$DOCKERFILE"
 	echo ""
-	echo "Bad URL?"
+	echo "The URL used MUST be from the docker INFORMATION page"
 	exit 1
 fi
 
