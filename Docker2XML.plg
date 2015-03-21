@@ -2,8 +2,8 @@
 
 <!DOCTYPE PLUGIN [
 <!ENTITY name      "docker2xml">
-<!ENTITY author    "Andrew Zawadzki">
-<!ENTITY version   "2015.03.20">
+<!ENTITY author    "Squid">
+<!ENTITY version   "2015.03.21">
 <!ENTITY launch    "Settings/Docker2XML">
 <!ENTITY pluginURL "https://raw.github.com/bergware/dynamix/master/unRAIDv6/dynamix.cache.dirs.plg">
 ]>
@@ -11,13 +11,13 @@
 <PLUGIN name="&name;" author="&author;" version="&version;" launch="&launch;" pluginURL="&pluginURL;">
 
 <CHANGES>
-###2015.03.20
+###2015.03.21
 - Initial Beta Version
 
 </CHANGES>
 
 <!--
-Copyright 2015, Andrew Zawadzki
+Copyright 2015, Squid Software
 Docker2XML - Create unRAID XML docker template from a docker file
 -->
 
@@ -51,8 +51,7 @@ The 'post-install' script.
 echo ""
 echo "-----------------------------------------------------------"
 echo " &name; has been installed."
-echo " This plugin requires Dynamix webGui to operate"
-echo " Copyright 2015, Andrew Zawadzki"
+echo " Copyright 2015, Squid Software"
 echo " Version: &version;"
 echo "-----------------------------------------------------------"
 echo ""
