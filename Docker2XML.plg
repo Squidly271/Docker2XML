@@ -37,8 +37,45 @@ rm -f $(ls /boot/config/plugins/&name;/&name;*.txz 2>/dev/null|grep -v '&version
 The 'source' file.
 -->
 <FILE Name="/boot/config/plugins/&name;/&name;-&version;.txz" Run="upgradepkg --install-new">
-<URL>https://raw.github.com/bergware/dynamix/master/archive/&name;-&version;.txz</URL>
+<URL>https://github.com/Squidly271/Docker2XML/raw/master/Docker2XML.txz</URL>
 </FILE>
+
+
+<!--
+The 'post-install' script.
+-->
+<FILE Run="/bin/bash">
+<INLINE>
+
+
+echo ""
+echo "-----------------------------------------------------------"
+echo " &name; has been installed."
+echo " This plugin requires Dynamix webGui to operate"
+echo " Copyright 2015, Andrew Zawadzki"
+echo " Version: &version;"
+echo "-----------------------------------------------------------"
+echo ""
+</INLINE>
+</FILE>
+
+<!--
+The 'remove' script.
+-->
+<FILE Run="/bin/bash" Method="remove">
+<INLINE>
+
+# Remove plugin related files
+rm -rf /boot/config/plugins/&name;
+rm -f /tmp/plugins/&name;.plg
+
+# Uninstall the 'source' package
+removepkg &name;-&version;
+</INLINE>
+</FILE>
+
+</PLUGIN>
+
 
 
 
