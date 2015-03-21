@@ -6,6 +6,7 @@
 <!ENTITY version   "2015.03.22">
 <!ENTITY launch    "Settings/Docker2XML">
 <!ENTITY pluginURL "https://raw.githubusercontent.com/Squidly271/Docker2XML/master/Docker2XML.plg">
+<!ENTITY plugdir   "/usr/local/emhttp/plugins/&name;"
 ]>
 
 <PLUGIN name="&name;" author="&author;" version="&version;" launch="&launch;" pluginURL="&pluginURL;">
@@ -24,6 +25,13 @@ Docker2XML - Create unRAID XML docker template from a docker file
 <!--
 The 'pre-install' script.
 -->
+
+<FILE Name="&emhttp;/README.md">
+<INLINE>
+####Docker 2 XML####
+Creates a basic XML file for any given docker container.
+</INLINE>
+</FILE>
 
 <FILE Run="/bin/bash">
 <INLINE>
