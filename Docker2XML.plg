@@ -1,0 +1,46 @@
+<?xml version='1.0' standalone='yes'?>
+
+<!DOCTYPE PLUGIN [
+<!ENTITY name      "docker2xml">
+<!ENTITY author    "Andrew Zawadzki">
+<!ENTITY version   "2015.03.20">
+<!ENTITY launch    "Settings/Docker2XML">
+<!ENTITY pluginURL "https://raw.github.com/bergware/dynamix/master/unRAIDv6/dynamix.cache.dirs.plg">
+]>
+
+<PLUGIN name="&name;" author="&author;" version="&version;" launch="&launch;" pluginURL="&pluginURL;">
+
+<CHANGES>
+###2015.03.20
+- Initial Beta Version
+
+</CHANGES>
+
+<!--
+Copyright 2015, Andrew Zawadzki
+Docker2XML - Create unRAID XML docker template from a docker file
+-->
+
+<!--
+The 'pre-install' script.
+-->
+
+<FILE Run="/bin/bash">
+<INLINE>
+
+# Remove old 'source' files
+rm -f $(ls /boot/config/plugins/&name;/&name;*.txz 2>/dev/null|grep -v '&version;')
+</INLINE>
+</FILE>
+
+<!--
+The 'source' file.
+-->
+<FILE Name="/boot/config/plugins/&name;/&name;-&version;.txz" Run="upgradepkg --install-new">
+<URL>https://raw.github.com/bergware/dynamix/master/archive/&name;-&version;.txz</URL>
+</FILE>
+
+
+
+
+

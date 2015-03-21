@@ -1,0 +1,33 @@
+Menu="Utilities"
+Title="Docker2XML"
+---
+<?PHP
+/* Copyright 2015 Andrew Zawadzki
+ */
+?>
+This plugin creates a basic XML template for any docker container located at  <u><a href="https://registry.hub.docker.com/" target="_blank">https://registry.hub.docker.com/</a></u>
+
+It reads the docker file and extracts the exposed tcp/udp ports and any explicit container volume paths.
+
+After running, the generated template will be name <b>Docker2XML-containername</b> and can be added like any other template.
+
+Note that you will have to double check the host port assignments for conflicts with other containers and also assign the Host Paths
+
+If there is only one port exposed, the template will assume that the port is for the UI interface.
+
+Unfortunately, the script cannot determine if any environment variables can / need to be set.
+
+Just paste the URL of the containers INFORMATION page and hit CONVERT
+<?PHP
+?>
+<?$cmd = '/usr/local/emhttp/plugins/docker2xml/scripts/docker2xml.sh ';?>
+
+
+<form method="POST" action="/update.htm" target="progressFrame">
+
+Docker File Information URL
+: <input id="pin" type="text" name="other" maxlength="200" value="<?=$cfg['other']?>">
+
+<input type="button" name="submit_button" value="CONVERT" onclick="openBox('<?=$cmd?>'+document.getElementById('pin').value,'Docker 2 XML',700,600)"><button type="button" onclick="done()">DONE</button>
+
+</form>
